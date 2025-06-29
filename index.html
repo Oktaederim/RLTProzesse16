@@ -179,15 +179,17 @@
                 </div>
             </div>
              <hr class="section-divider">
-            <div id="annual-cost-estimation" class="cost-output-section">
+            <div id="annual-cost-estimation" class="card">
                 <h4 class="annual-cost-header">Jahresbilanz (Richtwert)</h4>
-                <div class="input-group">
-                    <label for="stundenHeizen">Heizstunden pro Jahr (für therm. Energie)</label>
-                    <input type="number" id="stundenHeizen" value="1800" step="10" min="0">
-                </div>
-                <div class="input-group">
-                    <label for="stundenKuehlen">Kühlstunden pro Jahr (für therm. Energie)</label>
-                    <input type="number" id="stundenKuehlen" value="600" step="10" min="0">
+                <div class="grid-container" style="gap: 1rem 2rem;">
+                    <div class="input-group">
+                        <label for="stundenHeizen">Heizstunden pro Jahr</label>
+                        <input type="number" id="stundenHeizen" value="1800" step="10" min="0">
+                    </div>
+                    <div class="input-group">
+                        <label for="stundenKuehlen">Kühlstunden pro Jahr</label>
+                        <input type="number" id="stundenKuehlen" value="600" step="10" min="0">
+                    </div>
                 </div>
                 
                 <h5>Jährlicher Energieverbrauch</h5>
