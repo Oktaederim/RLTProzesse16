@@ -72,9 +72,8 @@ document.addEventListener('DOMContentLoaded', () => {
             if (value > max) el.value = max;
         }
     }
-
+    
     function clearResults() {
-        // Diese Funktion setzt alle Ergebnis-Anzeigen zurück, wenn eine ungültige Berechnung gestoppt wird.
         dom.nodes.forEach(node => {
              if (node) {
                 const spans = node.querySelectorAll('span');
@@ -368,9 +367,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const checkedKuehlmodus = document.querySelector('input[name="kuehlmodus"]:checked');
         const isDehumidify = checkedKuehlmodus ? checkedKuehlmodus.value === 'dehumidify' : false;
         dom.sollFeuchteWrapper.style.display = isActive && isDehumidify ? 'block' : 'none';
-        
-        const rhSliderGroup = document.getElementById('rhZuluftSliderGroup');
-        if (rhSliderGroup) rhSliderGroup.style.display = isActive && isDehumidify ? 'block' : 'none';
     }
     
     function syncAllSlidersToInputs(){
@@ -383,12 +379,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const newValue = parseFloat(input.value);
         if(isNaN(newValue)) return;
         
-        const sliderMin = Math.round(newValue * 0.5 / 100) * 100;
-        const sliderMax = Math.round(newValue * 1.5 / 100) * 100;
-
         if (input.id === 'volumenstrom') {
-            slider.min = sliderMin > 0 ? sliderMin : 0;
-            slider.max = sliderMax;
+            slider.min = Math.round(newValue * 0.5 / 100) * 100;
+            slider.max = Math.round(newValue * 1.5 / 100) * 100;
         }
         if (input.id === 'tempZuluft') {
             slider.min = (newValue - 6).toFixed(1);
@@ -449,7 +442,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (target.name === 'kuehlmodus' || target.id === 'kuehlerAktiv') {
                     handleKuehlerToggle();
                 }
-
                 calculateAll();
             });
         });
