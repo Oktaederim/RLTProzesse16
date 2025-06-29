@@ -308,12 +308,6 @@ document.addEventListener('DOMContentLoaded', () => {
             dom.rhAenderung.textContent = `${deltaRh >= 0 ? '+' : ''}${formatGerman(deltaRh,1)} %`;
             const deltaVol = inputs.volumenstrom - referenceState.vol;
             dom.volumenAenderung.textContent = `${deltaVol >= 0 ? '+' : ''}${formatGerman(deltaVol,0)} m³/h`;
-        } else {
-             dom.kostenReferenz.textContent = '--';
-             dom.kostenAenderung.textContent = '--';
-             dom.tempAenderung.textContent = '--';
-             dom.rhAenderung.textContent = '--';
-             dom.volumenAenderung.textContent = '--';
         }
     }
     
@@ -450,7 +444,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (target.name === 'kuehlmodus' || target.id === 'kuehlerAktiv') {
                     handleKuehlerToggle();
                 }
-
                 calculateAll();
             });
         });
