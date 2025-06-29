@@ -175,7 +175,7 @@ document.addEventListener('DOMContentLoaded', () => {
             dom.processOverviewContainer.innerHTML = `<div class="process-overview process-error">Ein unerwarteter Fehler ist aufgetreten.</div>`;
         }
     }
-function renderAll(states, operations, inputs, plausibilityWarning) {
+    function renderAll(states, operations, inputs, plausibilityWarning) {
         const finalState = states[3];
         const startState = states[0];
         let colors = ['color-green', 'color-green', 'color-green', 'color-green'];
