@@ -72,7 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (value > max) el.value = max;
         }
     }
-
+    
     function clearResults() {
         dom.nodes.forEach(node => {
              if (node) {
@@ -213,7 +213,7 @@ document.addEventListener('DOMContentLoaded', () => {
             dom.processOverviewContainer.innerHTML = `<div class="process-overview process-error">Ein unerwarteter Fehler ist aufgetreten.</div>`;
         }
     }
-function renderAll(states, operations, inputs) {
+    function renderAll(states, operations, inputs) {
         const finalState = states[3];
         const startState = states[0];
         let colors = ['color-green', 'color-green', 'color-green', 'color-green'];
