@@ -71,6 +71,40 @@ document.addEventListener('DOMContentLoaded', () => {
             if (value > max) el.value = max;
         }
     }
+    
+    function clearResults() {
+        dom.nodes.forEach(node => {
+             if (node) {
+                const spans = node.querySelectorAll('span');
+                if (spans.length > 1) {
+                    spans[1].textContent = '--';
+                    spans[3].textContent = '--';
+                    spans[5].textContent = '--';
+                }
+             }
+        });
+        const components = [dom.compVE, dom.compK, dom.compNE];
+        components.forEach(comp => {
+            if(comp && comp.p) comp.p.textContent = formatGerman(NaN, 2);
+            if(comp && comp.wv) comp.wv.textContent = formatGerman(NaN, 2);
+            if(comp && comp.kondensat) comp.kondensat.textContent = formatGerman(NaN, 2);
+        });
+        
+        dom.gesamtleistungWaerme.textContent = `${formatGerman(NaN, 2)} kW`;
+        dom.gesamtleistungKaelte.textContent = `${formatGerman(NaN, 2)} kW`;
+        dom.leistungVentilator.textContent = `${formatGerman(NaN, 2)} kW`;
+        dom.kostenHeizung.textContent = `${formatGerman(NaN, 2)} €/h`;
+        dom.kostenKuehlung.textContent = `${formatGerman(NaN, 2)} €/h`;
+        dom.kostenVentilator.textContent = `${formatGerman(NaN, 2)} €/h`;
+        dom.kostenGesamt.textContent = `${formatGerman(NaN, 2)} €/h`;
+        dom.jahresverbrauchWaerme.textContent = `${formatGerman(NaN, 0)} kWh/a`;
+        dom.jahresverbrauchKaelte.textContent = `${formatGerman(NaN, 0)} kWh/a`;
+        dom.jahresverbrauchVentilator.textContent = `${formatGerman(NaN, 0)} kWh/a`;
+        dom.jahreskostenWaerme.textContent = `${formatGerman(NaN, 0)} €/a`;
+        dom.jahreskostenKaelte.textContent = `${formatGerman(NaN, 0)} €/a`;
+        dom.jahreskostenVentilator.textContent = `${formatGerman(NaN, 0)} €/a`;
+        dom.jahreskostenGesamt.textContent = `${formatGerman(NaN, 0)} €/a`;
+    }
 
     function calculateAll() {
         try {
@@ -95,7 +129,11 @@ document.addEventListener('DOMContentLoaded', () => {
             let plausibilityWarning = null;
             
             const aussen = { t: inputs.tempAussen, rh: inputs.rhAussen, x: getX(inputs.tempAussen, inputs.rhAussen, inputs.druck) };
-            if (!isFinite(aussen.x)) { dom.processOverviewContainer.innerHTML = `<div class="process-overview process-error">Fehler im Außenluft-Zustand.</div>`; return; }
+            if (!isFinite(aussen.x)) {
+                dom.processOverviewContainer.innerHTML = `<div class="process-overview process-error">Fehler im Außenluft-Zustand.</div>`; 
+                clearResults();
+                return;
+            }
             aussen.h = getH(aussen.t, aussen.x);
             
             const massenstrom_kg_s = (inputs.volumenstrom / 3600) * 1.2;
@@ -107,8 +145,9 @@ document.addEventListener('DOMContentLoaded', () => {
                  
                  if (zielTaupunkt < inputs.tempKuehlVorlauf + 2.0) { 
                     plausibilityWarning = `Plausibilitätsfehler: Kühlwassertemperatur (${formatGerman(inputs.tempKuehlVorlauf, 1)}°C) ist zu hoch, um Luft auf den erforderlichen Taupunkt von ${formatGerman(zielTaupunkt, 1)}°C abzukühlen.`;
-                 } else if (zielTaupunkt < MIN_DEW_POINT) {
-                     plausibilityWarning = `<div class="process-overview process-error">Warnung: Feuchte-Sollwert erfordert Abkühlung unter ${MIN_DEW_POINT}°C.</div>`;
+                 }
+                 if (zielTaupunkt < MIN_DEW_POINT) {
+                     plausibilityWarning = `Warnung: Feuchte-Sollwert erfordert Abkühlung unter ${MIN_DEW_POINT}°C.`;
                  }
             } else {
                 zuluftSoll.x = aussen.x;
